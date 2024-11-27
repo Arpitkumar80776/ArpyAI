@@ -10,7 +10,7 @@ from gemini import Gemini
 import requests
 import os
 
-api_key_gemini_com = "AIzaSyBbzgxZ5VEeMHzkgx5t14iqD7E0HovW2qc"  # Replace with your Gemini.com API key 
+api_key_gemini_com = "YOUR_GEMINI_API_KEY"  # Replace with your Gemini.com API key 
 gemini_chat_url = "https://api.gemini.com/v1/chat"  # Replace with the correct chat endpoint if needed
 
 def fetch_from_gemini(query):
@@ -35,7 +35,7 @@ def fetch_from_gemini(query):
     except Exception as e:
         return f"An error occurred: {e}"
         
-def get_weather(city, api_key="5d70cef5a529e93d79308fb25936d286"):
+def get_weather(city, api_key="YOUR_OPENWEATHER_API_KEY"):
     """
     Fetch the current weather for a given city using OpenWeather API.
 
