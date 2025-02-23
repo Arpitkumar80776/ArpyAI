@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chatbot</title>
-    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
     <div class="container py-5">
@@ -30,7 +30,7 @@
                         <div class="message bot-message">
                             <div class="message-content">
                                 <div class="message-text">
-                                    Hi 👋🏻, I'm Arpy AI, How can i assist you today?
+                                    Hi 👋🏻, I'm Arpy AI, How can I assist you today?
                                 </div>
                                 <div class="message-time">Now</div>
                             </div>
@@ -126,20 +126,32 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.j ins"></script>
-    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="static/js/chat.js"></script>
     <script>
         feather.replace();
 
         // Initialize preferences if they exist
-        {% if preferences %}
-        const savedPreferences = {{ preferences|tojson|safe }};
-        document.getElementById('theme').value = savedPreferences.theme;
-        document.getElementById('messageDisplay').value = savedPreferences.message_display;
-        document.getElementById('notificationEnabled').checked = savedPreferences.notification_enabled;
-        document.documentElement.setAttribute('data-bs-theme', savedPreferences.theme);
-        {% endif %}
+        const savedPreferences = JSON.parse(localStorage.getItem('preferences'));
+        if (savedPreferences) {
+            document.getElementById('theme').value = savedPreferences.theme;
+            document.getElementById('messageDisplay').value = savedPreferences.message_display;
+            document.getElementById('notificationEnabled').checked = savedPreferences.notification_enabled;
+            document.documentElement.setAttribute('data-bs-theme', savedPreferences.theme);
+        }
+
+        // Save preferences
+        function savePreferences() {
+            const preferences = {
+                theme: document.getElementById('theme').value,
+                message_display: document.getElementById('messageDisplay').value,
+                notification_enabled: document.getElementById('notificationEnabled').checked,
+            };
+            localStorage.setItem('preferences', JSON.stringify(preferences));
+            document.documentElement.setAttribute('data-bs-theme', preferences.theme);
+            alert('Preferences saved!');
+        }
     </script>
     <p>Made with ❤️ by <a href="https://github.com/Arpitkumar80776" target="_blank">Arpit Kumar</a></p>
 </body>
-</html>
+    </html>
