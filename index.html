@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="text-center mb-4">
+                    <h1 class="logo">Arpy AI</h1>
+                    <p class="attribution">Made with ❤️ by <a href="https://github.com/Arpitkumar80776" target="_blank">Arpit Kumar</a></p>
+                </div>
+                <!-- Settings Button -->
+                <div class="text-end mb-3">
+                    <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#preferencesModal">
+                        <i data-feather="settings"></i>
+                    </button>
+                </div>
+
+                <div class="chat-container">
+                    <div class="chat-messages" id="messageContainer">
+                        <!-- Welcome message -->
+                        <div class="message bot-message">
+                            <div class="message-content">
+                                <div class="message-text">
+                                    Hi 👋🏻, I'm Arpy AI, How can i assist you today?
+                                </div>
+                                <div class="message-time">Now</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Suggestions -->
+                    <div class="suggestions mb-4" id="suggestions">
+                        <h6 class="suggestions-title mb-3">Try asking:</h6>
+                        <div class="suggestion-buttons">
+                            <button class="btn btn-outline-secondary suggestion-btn" onclick="sendSuggestion(this)">
+                                Tell me a joke
+                            </button>
+                            <button class="btn btn-outline-secondary suggestion-btn" onclick="sendSuggestion(this)">
+                                Tell me a fun fact
+                            </button>
+                            <button class="btn btn-outline-secondary suggestion-btn" onclick="sendSuggestion(this)">
+                                What can you help me with?
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Input area -->
+                    <div class="input-area">
+                        <form id="chatForm" class="input-group">
+                            <input type="text" 
+                                   id="messageInput" 
+                                   class="form-control" 
+                                   placeholder="Type your message here..."
+                                   autocomplete="off">
+                            <button class="btn btn-outline-secondary" type="button" id="voiceRecordBtn">
+                                <i data-feather="mic"></i>
+                            </button>
+                            <button class="btn btn-primary" type="submit">
+                                <i data-feather="send"></i>
+                            </button>
+                        </form>
+                        <!-- Recording indicator -->
+                        <div id="recordingIndicator" class="recording-indicator d-none">
+                            <div class="recording-dot"></div>
+                            Recording... <span id="recordingTime">0:00</span>
+                            <button class="btn btn-sm btn-danger ms-2" id="stopRecordingBtn">Stop</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preferences Modal -->
+    <div class="modal fade" id="preferencesModal" tabindex="-1" aria-labelledby="preferencesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="preferencesModalLabel">User Preferences</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="preferencesForm">
+                        <div class="mb-3">
+                            <label for="theme" class="form-label">Theme</label>
+                            <select class="form-select" id="theme" name="theme">
+                                <option value="dark">Dark</option>
+                                <option value="light">Light</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="messageDisplay" class="form-label">Message Display</label>
+                            <select class="form-select" id="messageDisplay" name="message_display">
+                                <option value="standard">Standard</option>
+                                <option value="compact">Compact</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="notificationEnabled" name="notification_enabled">
+                            <label class="form-check-label" for="notificationEnabled">Enable Notifications</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="savePreferences()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div class="typing-indicator d-none" id="typingIndicator">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.j ins"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script>
+        feather.replace();
+
+        // Initialize preferences if they exist
+        {% if preferences %}
+        const savedPreferences = {{ preferences|tojson|safe }};
+        document.getElementById('theme').value = savedPreferences.theme;
+        document.getElementById('messageDisplay').value = savedPreferences.message_display;
+        document.getElementById('notificationEnabled').checked = savedPreferences.notification_enabled;
+        document.documentElement.setAttribute('data-bs-theme', savedPreferences.theme);
+        {% endif %}
+    </script>
+    <p>Made with ❤️ by <a href="https://github.com/Arpitkumar80776" target="_blank">Arpit Kumar</a></p>
+</body>
+</html>
