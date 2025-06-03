@@ -2,9 +2,12 @@ name: arpy-ai-env
 channels:
   - defaults
 dependencies:
-  - python=3.x  # Replace x with your Python version
+  - python=3.10.2
   - pip
   - pip:
       - openai
-      - other-required-packages
-      - gemini
+      - google-generativeai
+      - requests
+      - pyttsx3
+      - SpeechRecognition
+      - python-dotenv
